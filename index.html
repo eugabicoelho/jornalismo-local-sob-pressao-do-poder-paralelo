@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jornalismo local sob pressão do poder paralelo</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --preto: #000000;
+    --carvao: #3c3c3b;
+    --amarelo: #f2f752;
+    --lilas: #8f80f7;
+    --branco: #ffffff;
+    --texto: rgba(255,255,255,0.88);
+    --texto-sec: rgba(255,255,255,0.72);
+    --texto-ter: rgba(255,255,255,0.55);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--carvao);
+    color: var(--texto);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--preto);
+    border-bottom: 2px solid var(--amarelo);
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--amarelo); letter-spacing: 0.12em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--branco); text-decoration: none; letter-spacing: 0.1em; opacity: 0.7; transition: opacity 0.2s, color 0.2s; }
+  .nav-links a:hover { opacity: 1; color: var(--amarelo); }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--amarelo); }
+  .nav-mobile-menu { display: none; position: fixed; top: 48px; left: 0; right: 0; background: var(--preto); border-bottom: 2px solid var(--amarelo); padding: 20px 24px; z-index: 99; flex-direction: column; gap: 16px; }
+  .nav-mobile-menu.open { display: flex; }
+  .nav-mobile-menu a { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--branco); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+  /* HERO */
+  .hero { min-height: 100vh; background: var(--preto); display: flex; flex-direction: column; justify-content: flex-end; padding: 120px 60px 80px; position: relative; overflow: hidden; }
+  .hero-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-12deg); font-family: 'Syne', sans-serif; font-size: clamp(120px, 20vw, 280px); font-weight: 800; color: rgba(242,247,82,0.04); white-space: nowrap; pointer-events: none; user-select: none; letter-spacing: -0.05em; }
+  .hero-tag { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--lilas); text-transform: uppercase; margin-bottom: 24px; animation: fadeUp 0.8s ease both; }
+  .hero-title { font-family: 'Syne', sans-serif; font-size: clamp(36px, 6vw, 88px); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; max-width: 900px; animation: fadeUp 0.8s 0.1s ease both; }
+  .hero-title em { font-style: normal; color: var(--amarelo); }
+  .hero-subtitle { font-family: 'DM Sans', sans-serif; font-size: clamp(13px, 1.4vw, 16px); color: rgba(255,255,255,0.8); max-width: 600px; margin-top: 28px; line-height: 1.7; animation: fadeUp 0.8s 0.2s ease both; }
+  .hero-meta { margin-top: 52px; display: flex; gap: 48px; animation: fadeUp 0.8s 0.3s ease both; }
+  .hero-stat { display: flex; flex-direction: column; gap: 4px; }
+  .hero-stat-num { font-family: 'Syne', sans-serif; font-size: clamp(36px, 5vw, 64px); font-weight: 800; color: var(--amarelo); line-height: 1; }
+  .hero-stat-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: rgba(255,255,255,0.65); text-transform: uppercase; max-width: 140px; }
+  .hero-divider { width: 1px; background: rgba(255,255,255,0.2); align-self: stretch; }
+  .scroll-hint { position: absolute; bottom: 36px; right: 60px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.4); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+  .scroll-hint::before { content: ''; display: block; width: 40px; height: 1px; background: rgba(255,255,255,0.3); }
+
+  /* SEÇÕES */
+  section { padding: 100px 60px; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--lilas); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; display: block; height: 1px; width: 40px; background: var(--lilas); opacity: 0.6; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(24px, 3.5vw, 44px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .section-desc { font-size: 14px; color: var(--texto-sec); max-width: 560px; line-height: 1.7; margin-bottom: 60px; }
+
+  /* SOBRE */
+  .sobre { background: var(--carvao); border-top: 1px solid rgba(255,255,255,0.1); }
+  .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 60px; }
+  .sobre-bloco { display: flex; flex-direction: column; gap: 16px; }
+  .sobre-bloco h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--amarelo); }
+  .sobre-bloco p { font-size: 14px; line-height: 1.8; color: var(--texto-sec); }
+  .sobre-bloco p.credito { font-size: 14px; color: var(--texto); border-left: 2px solid var(--amarelo); padding-left: 14px; margin-top: 8px; line-height: 1.7; }
+
+  /* GRANDES NÚMEROS */
+  .grandes-numeros { background: var(--preto); }
+  .numeros-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(255,255,255,0.06); }
+  .numero-card { background: var(--preto); padding: 48px 40px; display: flex; flex-direction: column; gap: 16px; transition: background 0.3s; }
+  .numero-card:hover { background: #111; }
+  .numero-card.destaque { background: var(--amarelo); }
+  .numero-card.destaque:hover { background: #e8e845; }
+  .numero-card.destaque .numero-val { color: var(--preto); }
+  .numero-card.destaque .numero-label { color: rgba(0,0,0,0.7); }
+  .numero-card.destaque .numero-desc { color: rgba(0,0,0,0.7); }
+  .numero-card.lilas { background: var(--lilas); }
+  .numero-card.lilas .numero-val { color: var(--preto); }
+  .numero-card.lilas .numero-label { color: rgba(0,0,0,0.7); }
+  .numero-card.lilas .numero-desc { color: rgba(0,0,0,0.65); }
+  .numero-val { font-family: 'Syne', sans-serif; font-size: clamp(36px, 4vw, 56px); font-weight: 700; line-height: 1; color: var(--amarelo); letter-spacing: -0.04em; }
+  .numero-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.65); line-height: 1.5; }
+  .numero-desc { font-size: 13px; color: var(--texto-sec); line-height: 1.7; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 16px; margin-top: auto; }
+  .numero-card.destaque .numero-desc, .numero-card.lilas .numero-desc { border-top-color: rgba(0,0,0,0.2); }
+
+  /* BARRAS */
+  .barra-container { display: flex; flex-direction: column; gap: 18px; margin-top: 40px; }
+  .barra-item { display: grid; grid-template-columns: 220px 1fr 60px; align-items: center; gap: 20px; }
+  .barra-label { font-size: 13px; color: var(--texto-sec); line-height: 1.4; text-align: right; }
+  .barra-track { height: 8px; background: rgba(255,255,255,0.15); overflow: hidden; }
+  .barra-fill { height: 100%; transition: width 1.5s cubic-bezier(0.16,1,0.3,1); width: 0; }
+  .barra-fill.amarelo { background: var(--amarelo); }
+  .barra-fill.lilas { background: var(--lilas); }
+  .barra-fill.branco { background: rgba(255,255,255,0.75); }
+  .barra-pct { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--amarelo); font-weight: 700; }
+  .barra-asterisco { font-size: 12px; color: var(--texto-ter); margin-top: 16px; padding-left: 4px; line-height: 1.5; }
+
+  /* MAPA */
+  .mapa-section { background: var(--carvao); }
+  .mapa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; background: rgba(255,255,255,0.08); margin-top: 60px; }
+  .regiao-card { background: #2a2a29; padding: 40px 32px; display: flex; flex-direction: column; gap: 24px; transition: background 0.2s; }
+  .regiao-card:hover { background: #333; }
+  .regiao-card:first-child { grid-column: 1 / -1; background: var(--preto); }
+  .regiao-nome { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+  .regiao-n { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.55); text-transform: uppercase; margin-top: -18px; }
+  .regiao-metricas { display: flex; gap: 28px; flex-wrap: wrap; }
+  .regiao-metrica { display: flex; flex-direction: column; gap: 4px; }
+  .regiao-metrica-val { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; line-height: 1; }
+  .regiao-metrica-val.am { color: var(--amarelo); }
+  .regiao-metrica-val.li { color: var(--lilas); }
+  .regiao-metrica-val.br { color: var(--branco); }
+  .regiao-metrica-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); line-height: 1.4; max-width: 100px; }
+  .regiao-destaque { font-size: 13px; color: var(--texto-sec); line-height: 1.6; border-left: 2px solid var(--lilas); padding-left: 14px; font-style: italic; }
+
+  /* ATORES */
+  .atores-section { background: var(--preto); }
+  .atores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(255,255,255,0.06); margin-top: 60px; }
+  .ator-card { background: var(--preto); padding: 40px 28px; display: flex; flex-direction: column; gap: 12px; transition: background 0.2s; }
+  .ator-card:hover { background: #111; }
+  .ator-rank { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+  .ator-nota-topo { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--texto-sec); margin-bottom: 4px; }
+  .ator-num { font-family: 'Syne', sans-serif; font-size: 60px; font-weight: 700; line-height: 1; letter-spacing: -0.05em; }
+  .ator-card:nth-child(1) .ator-num { color: var(--amarelo); }
+  .ator-card:nth-child(2) .ator-num { color: rgba(242,247,82,0.8); }
+  .ator-card:nth-child(3) .ator-num { color: rgba(242,247,82,0.6); }
+  .ator-card:nth-child(4) .ator-num { color: rgba(242,247,82,0.45); }
+  .ator-nome { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; line-height: 1.2; color: var(--branco); }
+  .ator-desc { font-size: 12px; color: var(--texto-sec); line-height: 1.6; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 14px; margin-top: auto; }
+
+  /* SILÊNCIO */
+  .silencio-section { background: var(--amarelo); color: var(--preto); }
+  .silencio-section .section-label { color: rgba(0,0,0,0.55); }
+  .silencio-section .section-label::after { background: rgba(0,0,0,0.4); }
+  .silencio-section .section-title { color: var(--preto); }
+  .silencio-section .section-desc { color: rgba(0,0,0,0.65); }
+  .silencio-big { font-family: 'Syne', sans-serif; font-size: clamp(72px, 12vw, 160px); font-weight: 800; line-height: 0.9; letter-spacing: -0.05em; color: var(--preto); margin-bottom: 12px; }
+  .silencio-label { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(0,0,0,0.6); margin-bottom: 40px; }
+  .silencio-motivos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(0,0,0,0.15); margin-top: 60px; }
+  .motivo-card { background: var(--amarelo); padding: 32px 24px; display: flex; flex-direction: column; gap: 10px; transition: background 0.2s; }
+  .motivo-card:hover { background: #ebe749; }
+  .motivo-num { font-family: 'Syne', sans-serif; font-size: 44px; font-weight: 700; color: var(--preto); line-height: 1; letter-spacing: -0.04em; }
+  .motivo-nome { font-size: 13px; font-weight: 600; color: var(--preto); line-height: 1.4; }
+  .motivo-desc { font-size: 12px; color: rgba(0,0,0,0.65); line-height: 1.6; border-top: 1px solid rgba(0,0,0,0.15); padding-top: 10px; margin-top: auto; }
+
+  /* HOSTILIDADES */
+  .host-section { background: #1e1e1d; }
+  .host-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 60px; }
+
+  /* ESTRATÉGIAS */
+  .strat-section { background: var(--lilas); color: var(--preto); }
+  .strat-section .section-label { color: rgba(0,0,0,0.55); }
+  .strat-section .section-label::after { background: rgba(0,0,0,0.35); }
+  .strat-section .section-title { color: var(--preto); }
+  .strat-section .section-desc { color: rgba(0,0,0,0.65); }
+  .strat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(0,0,0,0.15); margin-top: 60px; }
+  .strat-card { background: var(--lilas); padding: 36px 28px; display: flex; flex-direction: column; gap: 14px; transition: background 0.2s; }
+  .strat-card:hover { background: #8476ec; }
+  .strat-num { font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 700; color: var(--preto); line-height: 1; letter-spacing: -0.04em; }
+  .strat-nome { font-size: 14px; font-weight: 600; color: var(--preto); line-height: 1.4; }
+  .strat-desc { font-size: 12px; color: rgba(0,0,0,0.65); line-height: 1.6; }
+
+  /* APOIO */
+  .apoio-section { background: var(--carvao); }
+  .apoio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(255,255,255,0.08); margin-top: 60px; }
+  .apoio-card { background: var(--carvao); padding: 36px 28px; display: flex; flex-direction: column; gap: 14px; transition: background 0.2s; }
+  .apoio-card:hover { background: #494947; }
+  .apoio-num { font-family: 'Syne', sans-serif; font-size: 44px; font-weight: 700; color: var(--lilas); line-height: 1; letter-spacing: -0.04em; }
+  .apoio-nome { font-size: 14px; font-weight: 600; color: var(--branco); line-height: 1.4; }
+  .apoio-desc { font-size: 12px; color: var(--texto-sec); line-height: 1.6; }
+
+  /* CITAÇÃO */
+  .citacao-section { background: var(--preto); padding: 100px 60px; }
+  .citacao-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 60px; }
+  .citacao-card { border-left: 3px solid var(--amarelo); padding: 28px 32px; background: rgba(255,255,255,0.04); display: flex; flex-direction: column; gap: 18px; }
+  .citacao-card.lilas { border-left-color: var(--lilas); }
+  .citacao-texto { font-size: 15px; line-height: 1.8; color: var(--texto); font-style: italic; }
+  .citacao-fonte { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amarelo); }
+  .citacao-card.lilas .citacao-fonte { color: var(--lilas); }
+
+  /* METODOLOGIA */
+  .metodologia { background: #111; border-top: 2px solid var(--amarelo); }
+  .metodo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-top: 60px; }
+  .metodo-item { display: flex; flex-direction: column; gap: 12px; }
+  .metodo-icon { font-family: 'Space Mono', monospace; font-size: 24px; color: var(--amarelo); }
+  .metodo-titulo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--branco); }
+  .metodo-desc { font-size: 13px; color: var(--texto-sec); line-height: 1.7; }
+
+  /* FOOTER */
+  footer { background: var(--preto); border-top: 2px solid rgba(255,255,255,0.1); padding: 60px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 32px; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--amarelo); letter-spacing: -0.02em; }
+  .footer-info { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); text-transform: uppercase; line-height: 2; text-align: right; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 12px 20px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    section, .citacao-section, footer { padding: 60px 24px; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-meta { flex-wrap: wrap; gap: 24px; }
+    .numeros-grid, .atores-grid, .strat-grid, .apoio-grid { grid-template-columns: 1fr 1fr; }
+    .sobre-grid, .host-cols, .citacao-grid, .metodo-grid { grid-template-columns: 1fr; gap: 32px; }
+    .mapa-grid { grid-template-columns: 1fr; }
+    .mapa-grid .regiao-card:first-child { grid-column: 1; }
+    .silencio-motivos { grid-template-columns: 1fr 1fr; }
+    .barra-item { grid-template-columns: 120px 1fr 44px; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .footer-info { text-align: left; }
+  }
+  @media (max-width: 600px) {
+    section, .citacao-section, footer { padding: 48px 20px; }
+    .hero { padding: 88px 20px 52px; }
+    .hero-meta { flex-direction: column; gap: 20px; }
+    .hero-divider { display: none; }
+    .numeros-grid, .atores-grid { grid-template-columns: 1fr; }
+    .strat-grid, .apoio-grid, .silencio-motivos { grid-template-columns: 1fr; }
+    .barra-item { grid-template-columns: 1fr; gap: 6px; }
+    .barra-label { text-align: left; }
+    .citacao-grid { grid-template-columns: 1fr; gap: 20px; }
+    .metodo-grid { grid-template-columns: 1fr; gap: 32px; }
+    .sobre-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Jornalismo local sob pressão do poder paralelo · 2026</div>
+  <ul class="nav-links">
+    <li><a href="#sobre">A Pesquisa</a></li>
+    <li><a href="#numeros">Dados</a></li>
+    <li><a href="#regioes">Regiões</a></li>
+    <li><a href="#atores">Atores</a></li>
+    <li><a href="#silencio">Silenciamento</a></li>
+    <li><a href="#resistencia">Resistência</a></li>
+    <li><a href="#metodologia">Metodologia</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="nav-mobile-menu" id="mobileMenu">
+  <a href="#sobre" onclick="closeMenu()">A Pesquisa</a>
+  <a href="#numeros" onclick="closeMenu()">Dados</a>
+  <a href="#regioes" onclick="closeMenu()">Regiões</a>
+  <a href="#atores" onclick="closeMenu()">Atores</a>
+  <a href="#silencio" onclick="closeMenu()">Silenciamento</a>
+  <a href="#resistencia" onclick="closeMenu()">Resistência</a>
+  <a href="#metodologia" onclick="closeMenu()">Metodologia</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text" aria-hidden="true">SILÊNCIO</div>
+  <div class="hero-tag">Pesquisa Nacional · RSF · 2026</div>
+  <h1 class="hero-title">
+    Jornalismo<br>local sob<br>pressão do<br><em>poder paralelo</em>
+  </h1>
+  <p class="hero-subtitle">O primeiro levantamento estruturado e de alcance nacional sobre como políticos corruptos, empresários, forças de segurança, facções e outros atores silenciam o jornalismo local no Brasil.</p>
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <div class="hero-stat-num">38</div>
+      <div class="hero-stat-label">veículos e comunicadores ouvidos</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">regiões do Brasil</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">89%</div>
+      <div class="hero-stat-label">sofreram hostilidades</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">15,8%</div>
+      <div class="hero-stat-label">têm liberdade de imprensa plena</div>
+    </div>
+  </div>
+  <div class="scroll-hint">Role para explorar</div>
+</section>
+
+<!-- SOBRE -->
+<section class="sobre" id="sobre">
+  <div class="section-label">A Pesquisa</div>
+  <h2 class="section-title reveal">O que investigamos</h2>
+  <div class="sobre-grid reveal">
+    <div class="sobre-bloco">
+      <h3>O problema</h3>
+      <p>Veículos de jornalismo local atuam em territórios marcados por desigualdades históricas, violência armada e diferentes formas de poder paralelo. Em muitos desses lugares, são a única fonte de informação acessível à população. Mas a pressão sobre esses veículos raramente aparece nas estatísticas.</p>
+      <p>Esta pesquisa mapeou, pela primeira vez em escala nacional, como essa pressão funciona e quais são seus efeitos concretos sobre o jornalismo e sobre as comunidades que ele serve.</p>
+    </div>
+    <div class="sobre-bloco">
+      <h3>Como foi feita</h3>
+      <p>Entre fevereiro e maio de 2026, 38 jornalistas e comunicadores de veículos locais responderam a um questionário estruturado e, parte deles, participou de entrevistas em profundidade. A pesquisa foi conduzida com protocolos rigorosos de segurança e anonimato. Nenhum nome de fonte ou veículo é revelado neste relatório.</p>
+      <p class="credito">A investigação é assinada pela jornalista Gabi Coelho e pelo jornalista Igor Soares, com apoio da Repórteres Sem Fronteiras (RSF).</p>
+    </div>
+  </div>
+</section>
+
+<!-- GRANDES NÚMEROS -->
+<section class="grandes-numeros" id="numeros">
+  <div class="section-label">Os dados principais</div>
+  <h2 class="section-title reveal">O que os números revelam</h2>
+  <p class="section-desc reveal">Dados coletados com 38 veículos de jornalismo local das cinco regiões do Brasil.</p>
+  <div class="numeros-grid reveal">
+    <div class="numero-card destaque">
+      <div class="numero-label">Sofreram hostilidades</div>
+      <div class="numero-val">89%</div>
+      <div class="numero-desc">34 dos 38 respondentes relataram ter sofrido ao menos algum tipo de hostilidade no exercício da profissão.</div>
+    </div>
+    <div class="numero-card">
+      <div class="numero-label">Autocensura editorial</div>
+      <div class="numero-val">60,5%</div>
+      <div class="numero-desc">Já deixaram de publicar alguma pauta por medo de represálias. Violência policial e corrupção política são as mais evitadas.</div>
+    </div>
+    <div class="numero-card lilas">
+      <div class="numero-label">Liberdade de imprensa plena</div>
+      <div class="numero-val">15,8%</div>
+      <div class="numero-desc">Apenas 6 dos 38 respondentes consideram haver liberdade de imprensa plena no território onde atuam.</div>
+    </div>
+    <div class="numero-card">
+      <div class="numero-label">Nunca denunciaram</div>
+      <div class="numero-val">76,3%</div>
+      <div class="numero-desc">Não fizeram nenhuma denúncia formal após sofrer ameaça ou pressão. A maior parte da violência não existe em nenhum registro oficial.</div>
+    </div>
+    <div class="numero-card">
+      <div class="numero-label">Impacto psicológico</div>
+      <div class="numero-val">63,2%</div>
+      <div class="numero-desc">Relataram impacto psicológico na equipe — ansiedade, medo permanente, isolamento, desgaste emocional crônico.</div>
+    </div>
+    <div class="numero-card">
+      <div class="numero-label">Sem apoio suficiente</div>
+      <div class="numero-val">78,9%</div>
+      <div class="numero-desc">Afirmam não ter apoio suficiente para continuar operando em situação de risco. 84,2% apontam falta de apoio jurídico como o principal gargalo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOSTILIDADES -->
+<section class="host-section" id="hostilidades">
+  <div class="section-label">Tipos de hostilidade</div>
+  <h2 class="section-title reveal">Como a pressão se manifesta</h2>
+  <p class="section-desc reveal">Os respondentes podiam marcar mais de uma opção. Os dados mostram que a violência é múltipla e simultânea.</p>
+  <div class="host-cols">
+    <div class="reveal">
+      <div class="barra-container" id="barras-host">
+        <div class="barra-item"><div class="barra-label">Ataques em redes sociais</div><div class="barra-track"><div class="barra-fill amarelo" data-pct="47.4"></div></div><div class="barra-pct">47,4%</div></div>
+        <div class="barra-item"><div class="barra-label">Intimidação presencial</div><div class="barra-track"><div class="barra-fill amarelo" data-pct="47.4"></div></div><div class="barra-pct">47,4%</div></div>
+        <div class="barra-item"><div class="barra-label">Ameaça indireta</div><div class="barra-track"><div class="barra-fill lilas" data-pct="36.8"></div></div><div class="barra-pct">36,8%</div></div>
+        <div class="barra-item"><div class="barra-label">Pressão de autoridades</div><div class="barra-track"><div class="barra-fill lilas" data-pct="36.8"></div></div><div class="barra-pct">36,8%</div></div>
+        <div class="barra-item"><div class="barra-label">Ameaça direta</div><div class="barra-track"><div class="barra-fill branco" data-pct="34.2"></div></div><div class="barra-pct">34,2%</div></div>
+        <div class="barra-item"><div class="barra-label">Restrição de circulação</div><div class="barra-track"><div class="barra-fill branco" data-pct="26.3"></div></div><div class="barra-pct">26,3%</div></div>
+        <div class="barra-item"><div class="barra-label">Perseguição digital</div><div class="barra-track"><div class="barra-fill branco" data-pct="23.7"></div></div><div class="barra-pct">23,7%</div></div>
+        <div class="barra-item"><div class="barra-label">Censura explícita</div><div class="barra-track"><div class="barra-fill branco" data-pct="18.4"></div></div><div class="barra-pct">18,4%</div></div>
+      </div>
+      <p class="barra-asterisco">* Os respondentes podiam marcar mais de uma opção.</p>
+    </div>
+    <div class="reveal">
+      <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:28px;">Frequência das hostilidades</p>
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:40px;font-family:'Syne',sans-serif;font-weight:700;color:var(--amarelo);line-height:1;">63,2%</div>
+          <div style="font-size:13px;color:var(--texto-sec);">Das hostilidades ocorrem de forma <strong style="color:#fff;">ocasional</strong></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:40px;font-family:'Syne',sans-serif;font-weight:700;color:var(--lilas);line-height:1;">13,2%</div>
+          <div style="font-size:13px;color:var(--texto-sec);">Das hostilidades são <strong style="color:#fff;">recorrentes</strong></div>
+        </div>
+      </div>
+      <div style="margin-top:48px;padding:24px;background:rgba(255,255,255,0.05);border-left:3px solid var(--amarelo);">
+        <p style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--amarelo);margin-bottom:12px;">Linha editorial alterada?</p>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;"><div style="width:8px;height:8px;background:var(--branco);flex-shrink:0;"></div><div style="font-size:13px;color:var(--texto-sec);"><strong style="color:#fff;">55,3%</strong> — Não alterou</div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><div style="width:8px;height:8px;background:var(--lilas);flex-shrink:0;"></div><div style="font-size:13px;color:var(--texto-sec);"><strong style="color:#fff;">26,3%</strong> — Alteração parcial</div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><div style="width:8px;height:8px;background:var(--amarelo);flex-shrink:0;"></div><div style="font-size:13px;color:var(--texto-sec);"><strong style="color:#fff;">15,8%</strong> — Alteração significativa</div></div>
+        </div>
+        <p style="font-size:12px;color:var(--texto-sec);margin-top:14px;line-height:1.6;">A autocensura opera de forma seletiva: apaga pautas específicas sem alterar o perfil geral do veículo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATORES -->
+<section class="atores-section" id="atores">
+  <div class="section-label">Atores de pressão</div>
+  <h2 class="section-title reveal">Quem silencia o jornalismo local</h2>
+  <p class="section-desc reveal">O dado vai contra o imaginário mais imediato: políticos corruptos pressionam mais que facções criminosas. Os números indicam quantos respondentes citaram cada ator como principal agente de pressão.</p>
+  <div class="atores-grid reveal">
+    <div class="ator-card">
+      <div class="ator-rank">01 — Mais citado</div>
+      <div class="ator-nota-topo">respondentes que citaram</div>
+      <div class="ator-num">12</div>
+      <div class="ator-nome">Políticos corruptos</div>
+      <div class="ator-desc">Políticos corruptos usam controle de publicidade, processos judiciais e intimidação direta para silenciar veículos locais.</div>
+    </div>
+    <div class="ator-card">
+      <div class="ator-rank">02</div>
+      <div class="ator-nota-topo">respondentes que citaram</div>
+      <div class="ator-num">7</div>
+      <div class="ator-nome">Empresários</div>
+      <div class="ator-desc">Pressão via publicidade, processos e ameaças a donos de veículos locais que dependem de anunciantes do território.</div>
+    </div>
+    <div class="ator-card">
+      <div class="ator-rank">03</div>
+      <div class="ator-nota-topo">respondentes que citaram</div>
+      <div class="ator-num">6</div>
+      <div class="ator-nome">Forças de segurança</div>
+      <div class="ator-desc">Aparecem com destaque no Sul e no Sudeste. As forças de segurança do Estado figuram como agentes de hostilidade — evidenciando que violência institucional e ilegal frequentemente se sobrepõem nos territórios.</div>
+    </div>
+    <div class="ator-card">
+      <div class="ator-rank">04</div>
+      <div class="ator-nota-topo">respondentes que citaram</div>
+      <div class="ator-num">5</div>
+      <div class="ator-nome">Facções criminosas</div>
+      <div class="ator-desc">Com maior concentração no Sudeste, especialmente em territórios de favelas e periferias do Rio de Janeiro e São Paulo.</div>
+    </div>
+  </div>
+  <div style="margin-top:2px;background:rgba(255,255,255,0.06);padding:36px 40px;" class="reveal">
+    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:16px;">Também citados</p>
+    <div style="display:flex;gap:28px;flex-wrap:wrap;">
+      <div style="font-size:13px;color:var(--texto-sec);">Garimpeiros <span style="color:rgba(255,255,255,0.5);font-size:12px;">(Norte)</span></div>
+      <div style="font-size:13px;color:var(--texto-sec);">Latifundiários <span style="color:rgba(255,255,255,0.5);font-size:12px;">(Centro-Oeste / Norte)</span></div>
+      <div style="font-size:13px;color:var(--texto-sec);">Igrejas fundamentalistas <span style="color:rgba(255,255,255,0.5);font-size:12px;">(Norte)</span></div>
+      <div style="font-size:13px;color:var(--texto-sec);">Milícias armadas <span style="color:rgba(255,255,255,0.5);font-size:12px;">(RJ e outras regiões)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAPA REGIONAL -->
+<section class="mapa-section" id="regioes">
+  <div class="section-label">Panorama Regional</div>
+  <h2 class="section-title reveal">O Brasil que encontramos</h2>
+  <p class="section-desc reveal">Dados por região, a partir das respostas dos 38 veículos participantes. Cada região tem dinâmicas próprias de poder paralelo.</p>
+  <div class="mapa-grid reveal">
+    <div class="regiao-card">
+      <div class="regiao-nome">Norte</div>
+      <div class="regiao-n">10 respondentes · PA, AM, RO, RR</div>
+      <div class="regiao-metricas">
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">90%</div><div class="regiao-metrica-label">com alguma hostilidade</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val li">60%</div><div class="regiao-metrica-label">evitaram pautas</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val br">70%</div><div class="regiao-metrica-label">sem denúncia formal</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">10%</div><div class="regiao-metrica-label">liberdade plena</div></div>
+      </div>
+      <div class="regiao-destaque">Isolamento geográfico + dependência de publicidade governamental + garimpeiros e agronegócio como atores de pressão. Subnotificação extremamente grave.</div>
+    </div>
+    <div class="regiao-card">
+      <div class="regiao-nome">Nordeste</div>
+      <div class="regiao-n">8 respondentes · BA, AL, PE, MA</div>
+      <div class="regiao-metricas">
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">87,5%</div><div class="regiao-metrica-label">com alguma hostilidade</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val li">75%</div><div class="regiao-metrica-label">evitaram pautas</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val br">87,5%</div><div class="regiao-metrica-label">sem denúncia formal</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">12,5%</div><div class="regiao-metrica-label">liberdade plena</div></div>
+      </div>
+      <div class="regiao-destaque">75% evitaram pautas — acima da média nacional de 60,5%. Pressão de facções, políticos corruptos e empresários coexiste. 75% sem apoio suficiente para operar em risco.</div>
+    </div>
+    <div class="regiao-card">
+      <div class="regiao-nome">Centro-Oeste</div>
+      <div class="regiao-n">5 respondentes · GO, MS, DF</div>
+      <div class="regiao-metricas">
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">100%</div><div class="regiao-metrica-label">com alguma pressão</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val li">80%</div><div class="regiao-metrica-label">evitaram pautas</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val br">80%</div><div class="regiao-metrica-label">impacto psicológico</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">0%</div><div class="regiao-metrica-label">liberdade plena</div></div>
+      </div>
+      <div class="regiao-destaque">Única região com 100% dos respondentes relatando pressão. Agronegócio, garimpeiros e políticos corruptos como principais agentes. Nenhum considera haver liberdade de imprensa plena.</div>
+    </div>
+    <div class="regiao-card">
+      <div class="regiao-nome">Sudeste</div>
+      <div class="regiao-n">10 respondentes · RJ, SP, MG</div>
+      <div class="regiao-metricas">
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">90%</div><div class="regiao-metrica-label">com alguma hostilidade</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val li">50%</div><div class="regiao-metrica-label">evitaram pautas</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val br">70%</div><div class="regiao-metrica-label">impacto psicológico</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">10%</div><div class="regiao-metrica-label">liberdade plena</div></div>
+      </div>
+      <div class="regiao-destaque">Facções aparecem com mais força aqui. O cálculo de risco antes de publicar é parte da rotina editorial. 70% relataram impacto psicológico na equipe — acima da média nacional.</div>
+    </div>
+    <div class="regiao-card">
+      <div class="regiao-nome">Sul</div>
+      <div class="regiao-n">5 respondentes · RS, SC</div>
+      <div class="regiao-metricas">
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">80%</div><div class="regiao-metrica-label">com alguma hostilidade</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val li">80%</div><div class="regiao-metrica-label">impacto psicológico</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val br">80%</div><div class="regiao-metrica-label">sem denúncia formal</div></div>
+        <div class="regiao-metrica"><div class="regiao-metrica-val am">0%</div><div class="regiao-metrica-label">liberdade plena</div></div>
+      </div>
+      <div class="regiao-destaque">Forças de segurança do Estado lideram como atores de pressão — padrão distinto das demais regiões. 100% adotam protocolos de segurança. Nenhum considera haver liberdade de imprensa plena.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SILÊNCIO -->
+<section class="silencio-section" id="silencio">
+  <div class="section-label">Subnotificação</div>
+  <h2 class="section-title reveal">O silêncio que não aparece</h2>
+  <p class="section-desc reveal">A maior parte da violência sofrida pelo jornalismo local no Brasil não existe em nenhum registro oficial.</p>
+  <div class="reveal">
+    <div class="silencio-big">76,3%</div>
+    <div class="silencio-label">nunca denunciaram formalmente uma ameaça ou pressão sofrida</div>
+  </div>
+  <div class="silencio-motivos reveal">
+    <div class="motivo-card">
+      <div class="motivo-num">16%</div>
+      <div class="motivo-nome">Falta de confiança nas autoridades</div>
+      <div class="motivo-desc">O motivo mais citado. Os mesmos agentes que seriam acionados são, em muitos casos, os responsáveis pela pressão.</div>
+    </div>
+    <div class="motivo-card">
+      <div class="motivo-num">10%</div>
+      <div class="motivo-nome">Naturalização da violência</div>
+      <div class="motivo-desc">A pressão é absorvida como parte do cotidiano, sem que seja reconhecida como violação a ser denunciada.</div>
+    </div>
+    <div class="motivo-card">
+      <div class="motivo-num">9%</div>
+      <div class="motivo-nome">Medo de represália</div>
+      <div class="motivo-desc">Denunciar é percebido como mais perigoso que silenciar, especialmente quando o agressor tem proximidade com o Estado.</div>
+    </div>
+    <div class="motivo-card">
+      <div class="motivo-num">9%</div>
+      <div class="motivo-nome">Não considerou grave</div>
+      <div class="motivo-desc">Indicativo da normalização da violência: situações que seriam inaceitáveis em outros contextos são minimizadas.</div>
+    </div>
+  </div>
+  <div style="margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(0,0,0,0.12);" class="reveal">
+    <div style="background:var(--amarelo);padding:40px 36px;">
+      <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,0,0,0.6);margin-bottom:16px;">Resultado prático</p>
+      <p style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--preto);line-height:1.4;">Não há dados públicos sobre a segurança de jornalistas locais. Atrelado a isso, há falta de confiança por parte das vítimas nas instituições para denunciar.</p>
+    </div>
+    <div style="background:#e8e745;padding:40px 36px;display:flex;flex-direction:column;gap:20px;">
+      <div><div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:700;color:var(--preto);line-height:1;">CNJ</div><div style="font-size:13px;color:rgba(0,0,0,0.7);margin-top:4px;">Não dispõe de dados sobre assédio judicial contra jornalistas</div></div>
+      <div><div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:700;color:var(--preto);line-height:1;">PGR</div><div style="font-size:13px;color:rgba(0,0,0,0.7);margin-top:4px;">Encaminhou a pesquisa para MPs estaduais — nenhum respondeu</div></div>
+      <div><div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:700;color:var(--preto);line-height:1;">PF</div><div style="font-size:13px;color:rgba(0,0,0,0.7);margin-top:4px;">Indicou que a atribuição é das polícias civis — nenhuma respondeu</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTRATÉGIAS DE RESISTÊNCIA -->
+<section class="strat-section" id="resistencia">
+  <div class="section-label">Resistência</div>
+  <h2 class="section-title reveal">Como continuam informando</h2>
+  <p class="section-desc reveal">Diante da ausência de estrutura e apoio, os veículos desenvolveram estratégias próprias de sobrevivência editorial. Os números indicam quantos respondentes adotam cada estratégia.</p>
+  <div class="strat-grid reveal">
+    <div class="strat-card">
+      <div class="strat-num">50%</div>
+      <div class="strat-nome">Parcerias com outros veículos</div>
+      <div class="strat-desc">A estratégia mais adotada. Publicar em conjunto dilui o risco de represália e cria uma camada de proteção coletiva.</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-num">44,7%</div>
+      <div class="strat-nome">Apoio de organizações</div>
+      <div class="strat-desc">Articulação com entidades de proteção como Abraji, Artigo 19, RSF, CPJ e Rede de Proteção a Jornalistas.</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-num">31,6%</div>
+      <div class="strat-nome">Publicação coletiva</div>
+      <div class="strat-desc">Assinar reportagens com moradores ou outros comunicadores cria apelo comunitário e reduz a exposição individual.</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-num">28,9%</div>
+      <div class="strat-nome">Linguagem mais indireta</div>
+      <div class="strat-desc">Adaptar a escrita para cobrir temas sensíveis sem expor diretamente atores poderosos do território.</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-num">23,7%</div>
+      <div class="strat-nome">Mudança de formato</div>
+      <div class="strat-desc">Migrar para redes sociais, áudio ou outros formatos para contornar restrições e chegar ao público de formas diferentes.</div>
+    </div>
+    <div class="strat-card" style="background:rgba(0,0,0,0.15);">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,0,0,0.6);margin-bottom:16px;">Nota</div>
+      <p style="font-size:13px;color:rgba(0,0,0,0.75);line-height:1.7;">73,7% dos respondentes adotam algum tipo de protocolo de segurança. Os mais comuns: comunicação criptografada, publicação sem assinatura e omissão de detalhes territoriais.</p>
+      <p style="font-size:13px;color:rgba(0,0,0,0.65);margin-top:12px;line-height:1.7;">26,3% não têm nenhum protocolo estabelecido.</p>
+    </div>
+  </div>
+</section>
+
+<!-- APOIO NECESSÁRIO -->
+<section class="apoio-section" id="apoio">
+  <div class="section-label">O que falta</div>
+  <h2 class="section-title reveal">Que tipo de apoio seria mais necessário</h2>
+  <p class="section-desc reveal">78,9% dos respondentes afirmam não ter apoio suficiente para continuar operando em situação de risco.</p>
+  <div class="apoio-grid reveal">
+    <div class="apoio-card"><div class="apoio-num">84,2%</div><div class="apoio-nome">Apoio jurídico</div><div class="apoio-desc">O mais citado. O medo de processos judiciais é um dos principais mecanismos de autocensura identificados pela pesquisa.</div></div>
+    <div class="apoio-card"><div class="apoio-num">73,7%</div><div class="apoio-nome">Apoio financeiro</div><div class="apoio-desc">A dependência de publicidade de atores que deveriam ser fiscalizados é uma das formas mais disseminadas de controle editorial.</div></div>
+    <div class="apoio-card"><div class="apoio-num">52,6%</div><div class="apoio-nome">Formação em proteção</div><div class="apoio-desc">Treinamento em segurança digital, física e protocolos de resposta a ameaças ainda é escasso para a maioria dos veículos.</div></div>
+    <div class="apoio-card"><div class="apoio-num">36,8%</div><div class="apoio-nome">Segurança física</div><div class="apoio-desc">Estrutura para cobertura em campo, equipamentos e apoio para deslocamento em territórios de risco.</div></div>
+    <div class="apoio-card"><div class="apoio-num">36,8%</div><div class="apoio-nome">Visibilidade nacional</div><div class="apoio-desc">O isolamento dos veículos locais é parte do problema. Exposição nacional reduz o risco de silenciamento impune.</div></div>
+    <div class="apoio-card"><div class="apoio-num">36,8%</div><div class="apoio-nome">Segurança digital</div><div class="apoio-desc">Proteção contra ataques a sites, perseguição em redes sociais e vigilância digital — formas crescentes de censura.</div></div>
+  </div>
+</section>
+
+<!-- CITAÇÕES -->
+<section class="citacao-section">
+  <div class="section-label">Vozes da pesquisa</div>
+  <h2 class="section-title reveal">O que dizem os comunicadores</h2>
+  <p class="section-desc reveal">Relatos coletados na pesquisa. Todos os nomes são pseudônimos adotados para proteção das fontes.</p>
+  <div class="citacao-grid reveal">
+    <div class="citacao-card"><div class="citacao-texto">"Fazer jornalismo na favela continua sendo perigoso, pois a autocensura impede o exercício integral. A busca por justiça social segue sendo a principal bandeira de um jornalista favelado."</div><div class="citacao-fonte">Comunicador do RJ*</div></div>
+    <div class="citacao-card lilas"><div class="citacao-texto">"Significa correr risco de vida ou fazer um mau jornalismo."</div><div class="citacao-fonte">Jornalista de RO*</div></div>
+    <div class="citacao-card lilas"><div class="citacao-texto">"Toda pauta tem que levar em consideração o seu cálculo de risco. Até mesmo o assunto que parece bobo tende a ter um risco considerável."</div><div class="citacao-fonte">Comunicador do RJ*</div></div>
+    <div class="citacao-card"><div class="citacao-texto">"O GDF é um dos principais financiadores da emissora e pautas contra o governador vigente eram proibidas."</div><div class="citacao-fonte">Jornalista do DF*</div></div>
+    <div class="citacao-card"><div class="citacao-texto">"É muito doloroso sentir que não podemos contar a verdade sem correr risco de retaliação. Tem casos que chegam pra nós e sentimos que decepcionamos as famílias."</div><div class="citacao-fonte">Jornalista de SC*</div></div>
+    <div class="citacao-card lilas"><div class="citacao-texto">"Fazer jornalismo aqui é um ato de resistência. É disputar narrativa todos os dias."</div><div class="citacao-fonte">Comunicador da BA*</div></div>
+  </div>
+</section>
+
+<!-- METODOLOGIA -->
+<section class="metodologia" id="metodologia">
+  <div class="section-label">Metodologia</div>
+  <h2 class="section-title reveal">Como esta pesquisa foi feita</h2>
+  <div class="metodo-grid reveal">
+    <div class="metodo-item"><div class="metodo-icon">01</div><div class="metodo-titulo">Questionário estruturado</div><div class="metodo-desc">Formulário seguro aplicado de forma remota, com perguntas fechadas e abertas, abordando tipos de hostilidade, impactos editoriais, protocolos de segurança e percepção de liberdade de imprensa. Os respondentes podiam escolher entre anonimato total ou parcial.</div></div>
+    <div class="metodo-item"><div class="metodo-icon">02</div><div class="metodo-titulo">Entrevistas em profundidade</div><div class="metodo-desc">Parte dos respondentes participou de entrevistas por chamada de vídeo ou áudio. As entrevistas foram transcritas e checadas. Todos os entrevistados têm identidade protegida por pseudônimos sem relação com os nomes reais.</div></div>
+    <div class="metodo-item"><div class="metodo-icon">03</div><div class="metodo-titulo">Análise e cruzamento</div><div class="metodo-desc">Os dados foram consolidados e cruzados por região, tipo de veículo e perfil de ameaça. Foram comparados com relatórios públicos da RSF, Abraji, Atlas da Violência e dados de instituições consultadas.</div></div>
+    <div class="metodo-item"><div class="metodo-icon">04</div><div class="metodo-titulo">Proteção das fontes</div><div class="metodo-desc">Anonimato garantido a todos os respondentes. Pseudônimos sem relação com nomes reais. Referências territoriais generalizadas em casos de alto risco para evitar identificação por cruzamento de localização e tema.</div></div>
+    <div class="metodo-item"><div class="metodo-icon">05</div><div class="metodo-titulo">Limitações da amostra</div><div class="metodo-desc">A amostra de 38 respondentes não é probabilística e não tem pretensão de representatividade estatística do universo total de veículos locais no Brasil. O objetivo é documentar padrões e produzir evidências qualificadas sobre um fenômeno pouco sistematizado.</div></div>
+    <div class="metodo-item"><div class="metodo-icon">06</div><div class="metodo-titulo">Segurança da apuração</div><div class="metodo-desc">A investigação foi conduzida com comunicação criptografada. Os dados brutos da pesquisa são mantidos em ambiente seguro, acessível apenas às repórteres responsáveis. Nenhuma informação que permita identificação foi publicada.</div></div>
+  </div>
+  <div style="margin-top:60px;padding:36px;background:rgba(242,247,82,0.06);border:1px solid rgba(242,247,82,0.2);" class="reveal">
+    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--amarelo);margin-bottom:16px;">Fontes externas utilizadas</p>
+    <div style="display:flex;gap:28px;flex-wrap:wrap;">
+      <span style="font-size:13px;color:var(--texto-sec);">Relatório Mundial RSF 2025</span>
+      <span style="font-size:13px;color:var(--texto-sec);">Atlas da Violência 2024–2025</span>
+      <span style="font-size:13px;color:var(--texto-sec);">Instituto Socioambiental</span>
+      <span style="font-size:13px;color:var(--texto-sec);">Abraji</span>
+      <span style="font-size:13px;color:var(--texto-sec);">Artigo 19</span>
+      <span style="font-size:13px;color:var(--texto-sec);">Universidade Federal de Santa Catarina</span>
+      <span style="font-size:13px;color:var(--texto-sec);">Observatório de Violência contra Jornalistas e Comunicadores — Ministério da Justiça</span>
+      <span style="font-size:13px;color:var(--texto-sec);">CNJ</span>
+      <span style="font-size:13px;color:var(--texto-sec);">PGR</span>
+      <span style="font-size:13px;color:var(--texto-sec);">Polícia Federal</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Jornalismo local sob pressão do poder paralelo</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;line-height:1.8;">
+      Gabi Coelho e Igor Soares<br>
+      Com apoio da Repórteres Sem Fronteiras (RSF)<br>
+      Publicado no Projeto Colabora · 2026
+    </div>
+  </div>
+  <div class="footer-info">
+    Pesquisa realizada entre<br>
+    fevereiro e maio de 2026<br>
+    38 respondentes · 5 regiões<br>
+    Todos os dados anonimizados
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.barra-fill').forEach(bar => { bar.style.width = bar.getAttribute('data-pct') + '%'; });
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('#barras-host').forEach(el => barObserver.observe(el));
+</script>
+</body>
+</html>
