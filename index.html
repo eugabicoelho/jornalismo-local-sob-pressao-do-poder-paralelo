@@ -12,9 +12,9 @@
     --amarelo: #f2f752;
     --lilas: #8f80f7;
     --branco: #ffffff;
-    --texto: rgba(255,255,255,0.88);
-    --texto-sec: rgba(255,255,255,0.72);
-    --texto-ter: rgba(255,255,255,0.55);
+    --texto: #ffffff;
+    --texto-sec: rgba(255,255,255,0.9);
+    --texto-ter: rgba(255,255,255,0.75);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,8 +24,8 @@
     background: var(--carvao);
     color: var(--texto);
     font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 17px;
+    line-height: 1.7;
     overflow-x: hidden;
   }
 
@@ -70,16 +70,16 @@
   section { padding: 100px 60px; }
   .section-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--lilas); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
   .section-label::after { content: ''; display: block; height: 1px; width: 40px; background: var(--lilas); opacity: 0.6; }
-  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(24px, 3.5vw, 44px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
-  .section-desc { font-size: 14px; color: var(--texto-sec); max-width: 560px; line-height: 1.7; margin-bottom: 60px; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; color: var(--branco); }
+  .section-desc { font-size: 16px; color: var(--branco); max-width: 600px; line-height: 1.8; margin-bottom: 60px; }
 
   /* SOBRE */
   .sobre { background: var(--carvao); border-top: 1px solid rgba(255,255,255,0.1); }
   .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 60px; }
   .sobre-bloco { display: flex; flex-direction: column; gap: 16px; }
   .sobre-bloco h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--amarelo); }
-  .sobre-bloco p { font-size: 14px; line-height: 1.8; color: var(--texto-sec); }
-  .sobre-bloco p.credito { font-size: 14px; color: var(--texto); border-left: 2px solid var(--amarelo); padding-left: 14px; margin-top: 8px; line-height: 1.7; }
+  .sobre-bloco p { font-size: 16px; line-height: 1.85; color: var(--branco); }
+  .sobre-bloco p.credito { font-size: 16px; color: var(--branco); border-left: 2px solid var(--amarelo); padding-left: 14px; margin-top: 8px; line-height: 1.7; }
 
   /* GRANDES NÚMEROS */
   .grandes-numeros { background: var(--preto); }
@@ -103,14 +103,14 @@
   /* BARRAS */
   .barra-container { display: flex; flex-direction: column; gap: 18px; margin-top: 40px; }
   .barra-item { display: grid; grid-template-columns: 220px 1fr 60px; align-items: center; gap: 20px; }
-  .barra-label { font-size: 13px; color: var(--texto-sec); line-height: 1.4; text-align: right; }
-  .barra-track { height: 8px; background: rgba(255,255,255,0.15); overflow: hidden; }
+  .barra-label { font-size: 15px; color: var(--branco); line-height: 1.4; text-align: right; }
+  .barra-track { height: 8px; background: rgba(255,255,255,0.2); overflow: hidden; }
   .barra-fill { height: 100%; transition: width 1.5s cubic-bezier(0.16,1,0.3,1); width: 0; }
   .barra-fill.amarelo { background: var(--amarelo); }
   .barra-fill.lilas { background: var(--lilas); }
-  .barra-fill.branco { background: rgba(255,255,255,0.75); }
-  .barra-pct { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--amarelo); font-weight: 700; }
-  .barra-asterisco { font-size: 12px; color: var(--texto-ter); margin-top: 16px; padding-left: 4px; line-height: 1.5; }
+  .barra-fill.branco { background: rgba(255,255,255,0.9); }
+  .barra-pct { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--amarelo); font-weight: 700; }
+  .barra-asterisco { font-size: 13px; color: var(--branco); margin-top: 16px; padding-left: 4px; line-height: 1.5; }
 
   /* MAPA */
   .mapa-section { background: var(--carvao); }
@@ -118,31 +118,31 @@
   .regiao-card { background: #2a2a29; padding: 40px 32px; display: flex; flex-direction: column; gap: 24px; transition: background 0.2s; }
   .regiao-card:hover { background: #333; }
   .regiao-card:first-child { grid-column: 1 / -1; background: var(--preto); }
-  .regiao-nome { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
-  .regiao-n { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.55); text-transform: uppercase; margin-top: -18px; }
+  .regiao-nome { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
+  .regiao-n { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.75); text-transform: uppercase; margin-top: -18px; }
   .regiao-metricas { display: flex; gap: 28px; flex-wrap: wrap; }
-  .regiao-metrica { display: flex; flex-direction: column; gap: 4px; }
-  .regiao-metrica-val { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; line-height: 1; }
+  .regiao-metrica { display: flex; flex-direction: column; gap: 6px; }
+  .regiao-metrica-val { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 700; line-height: 1; }
   .regiao-metrica-val.am { color: var(--amarelo); }
   .regiao-metrica-val.li { color: var(--lilas); }
   .regiao-metrica-val.br { color: var(--branco); }
-  .regiao-metrica-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); line-height: 1.4; max-width: 100px; }
-  .regiao-destaque { font-size: 13px; color: var(--texto-sec); line-height: 1.6; border-left: 2px solid var(--lilas); padding-left: 14px; font-style: italic; }
+  .regiao-metrica-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.75); line-height: 1.4; max-width: 110px; }
+  .regiao-destaque { font-size: 14px; color: var(--texto); line-height: 1.7; border-left: 2px solid var(--lilas); padding-left: 14px; }
 
   /* ATORES */
   .atores-section { background: var(--preto); }
   .atores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(255,255,255,0.06); margin-top: 60px; }
   .ator-card { background: var(--preto); padding: 40px 28px; display: flex; flex-direction: column; gap: 12px; transition: background 0.2s; }
   .ator-card:hover { background: #111; }
-  .ator-rank { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
-  .ator-nota-topo { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--texto-sec); margin-bottom: 4px; }
+  .ator-rank { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--branco); text-transform: uppercase; }
+  .ator-nota-topo { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--branco); margin-bottom: 4px; }
   .ator-num { font-family: 'Syne', sans-serif; font-size: 60px; font-weight: 700; line-height: 1; letter-spacing: -0.05em; }
   .ator-card:nth-child(1) .ator-num { color: var(--amarelo); }
-  .ator-card:nth-child(2) .ator-num { color: rgba(242,247,82,0.8); }
-  .ator-card:nth-child(3) .ator-num { color: rgba(242,247,82,0.6); }
-  .ator-card:nth-child(4) .ator-num { color: rgba(242,247,82,0.45); }
-  .ator-nome { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; line-height: 1.2; color: var(--branco); }
-  .ator-desc { font-size: 12px; color: var(--texto-sec); line-height: 1.6; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 14px; margin-top: auto; }
+  .ator-card:nth-child(2) .ator-num { color: var(--amarelo); }
+  .ator-card:nth-child(3) .ator-num { color: var(--amarelo); }
+  .ator-card:nth-child(4) .ator-num { color: var(--amarelo); }
+  .ator-nome { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; line-height: 1.2; color: var(--branco); }
+  .ator-desc { font-size: 14px; color: var(--branco); line-height: 1.7; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 14px; margin-top: auto; }
 
   /* SILÊNCIO */
   .silencio-section { background: var(--amarelo); color: var(--preto); }
@@ -157,7 +157,7 @@
   .motivo-card:hover { background: #ebe749; }
   .motivo-num { font-family: 'Syne', sans-serif; font-size: 44px; font-weight: 700; color: var(--preto); line-height: 1; letter-spacing: -0.04em; }
   .motivo-nome { font-size: 13px; font-weight: 600; color: var(--preto); line-height: 1.4; }
-  .motivo-desc { font-size: 12px; color: rgba(0,0,0,0.65); line-height: 1.6; border-top: 1px solid rgba(0,0,0,0.15); padding-top: 10px; margin-top: auto; }
+  .motivo-desc { font-size: 14px; color: rgba(0,0,0,0.85); line-height: 1.7; border-top: 1px solid rgba(0,0,0,0.2); padding-top: 10px; margin-top: auto; }
 
   /* HOSTILIDADES */
   .host-section { background: #1e1e1d; }
@@ -174,7 +174,7 @@
   .strat-card:hover { background: #8476ec; }
   .strat-num { font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 700; color: var(--preto); line-height: 1; letter-spacing: -0.04em; }
   .strat-nome { font-size: 14px; font-weight: 600; color: var(--preto); line-height: 1.4; }
-  .strat-desc { font-size: 12px; color: rgba(0,0,0,0.65); line-height: 1.6; }
+  .strat-desc { font-size: 14px; color: rgba(0,0,0,0.85); line-height: 1.7; }
 
   /* APOIO */
   .apoio-section { background: var(--carvao); }
@@ -183,15 +183,15 @@
   .apoio-card:hover { background: #494947; }
   .apoio-num { font-family: 'Syne', sans-serif; font-size: 44px; font-weight: 700; color: var(--lilas); line-height: 1; letter-spacing: -0.04em; }
   .apoio-nome { font-size: 14px; font-weight: 600; color: var(--branco); line-height: 1.4; }
-  .apoio-desc { font-size: 12px; color: var(--texto-sec); line-height: 1.6; }
+  .apoio-desc { font-size: 14px; color: var(--branco); line-height: 1.7; }
 
   /* CITAÇÃO */
   .citacao-section { background: var(--preto); padding: 100px 60px; }
   .citacao-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 60px; }
   .citacao-card { border-left: 3px solid var(--amarelo); padding: 28px 32px; background: rgba(255,255,255,0.04); display: flex; flex-direction: column; gap: 18px; }
   .citacao-card.lilas { border-left-color: var(--lilas); }
-  .citacao-texto { font-size: 15px; line-height: 1.8; color: var(--texto); font-style: italic; }
-  .citacao-fonte { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amarelo); }
+  .citacao-texto { font-size: 16px; line-height: 1.85; color: var(--branco); font-style: italic; }
+  .citacao-fonte { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amarelo); }
   .citacao-card.lilas .citacao-fonte { color: var(--lilas); }
 
   /* METODOLOGIA */
@@ -200,12 +200,12 @@
   .metodo-item { display: flex; flex-direction: column; gap: 12px; }
   .metodo-icon { font-family: 'Space Mono', monospace; font-size: 24px; color: var(--amarelo); }
   .metodo-titulo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--branco); }
-  .metodo-desc { font-size: 13px; color: var(--texto-sec); line-height: 1.7; }
+  .metodo-desc { font-size: 15px; color: var(--branco); line-height: 1.8; }
 
   /* FOOTER */
   footer { background: var(--preto); border-top: 2px solid rgba(255,255,255,0.1); padding: 60px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 32px; }
   .footer-logo { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--amarelo); letter-spacing: -0.02em; }
-  .footer-info { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); text-transform: uppercase; line-height: 2; text-align: right; }
+  .footer-info { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: var(--branco); text-transform: uppercase; line-height: 2; text-align: right; }
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
   .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1); }
@@ -437,13 +437,13 @@
       <div class="ator-desc">Com maior concentração no Sudeste, especialmente em territórios de favelas e periferias do Rio de Janeiro e São Paulo.</div>
     </div>
   </div>
-  <div style="margin-top:2px;background:rgba(255,255,255,0.06);padding:36px 40px;" class="reveal">
-    <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:16px;">Também citados</p>
+  <div style="margin-top:2px;background:var(--amarelo);padding:36px 40px;" class="reveal">
+    <p style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--preto);margin-bottom:20px;font-weight:700;">Também citados</p>
     <div style="display:flex;gap:28px;flex-wrap:wrap;">
-      <div style="font-size:13px;color:var(--texto-sec);">Garimpeiros <span style="color:rgba(255,255,255,0.5);font-size:12px;">(Norte)</span></div>
-      <div style="font-size:13px;color:var(--texto-sec);">Latifundiários <span style="color:rgba(255,255,255,0.5);font-size:12px;">(Centro-Oeste / Norte)</span></div>
-      <div style="font-size:13px;color:var(--texto-sec);">Igrejas fundamentalistas <span style="color:rgba(255,255,255,0.5);font-size:12px;">(Norte)</span></div>
-      <div style="font-size:13px;color:var(--texto-sec);">Milícias armadas <span style="color:rgba(255,255,255,0.5);font-size:12px;">(RJ e outras regiões)</span></div>
+      <div style="font-size:15px;color:var(--preto);font-weight:600;">Garimpeiros <span style="color:rgba(0,0,0,0.65);font-size:13px;">(Norte)</span></div>
+      <div style="font-size:15px;color:var(--preto);font-weight:600;">Latifundiários <span style="color:rgba(0,0,0,0.65);font-size:13px;">(Centro-Oeste / Norte)</span></div>
+      <div style="font-size:15px;color:var(--preto);font-weight:600;">Igrejas fundamentalistas <span style="color:rgba(0,0,0,0.65);font-size:13px;">(Norte)</span></div>
+      <div style="font-size:15px;color:var(--preto);font-weight:600;">Milícias armadas <span style="color:rgba(0,0,0,0.65);font-size:13px;">(RJ e outras regiões)</span></div>
     </div>
   </div>
 </section>
@@ -519,7 +519,7 @@
   <p class="section-desc reveal">A maior parte da violência sofrida pelo jornalismo local no Brasil não existe em nenhum registro oficial.</p>
   <div class="reveal">
     <div class="silencio-big">76,3%</div>
-    <div class="silencio-label">nunca denunciaram formalmente uma ameaça ou pressão sofrida</div>
+    <div class="silencio-label" style="margin-top:20px;">nunca denunciaram formalmente uma ameaça ou pressão sofrida</div>
   </div>
   <div class="silencio-motivos reveal">
     <div class="motivo-card">
@@ -587,10 +587,10 @@
       <div class="strat-nome">Mudança de formato</div>
       <div class="strat-desc">Migrar para redes sociais, áudio ou outros formatos para contornar restrições e chegar ao público de formas diferentes.</div>
     </div>
-    <div class="strat-card" style="background:rgba(0,0,0,0.15);">
-      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,0,0,0.6);margin-bottom:16px;">Nota</div>
-      <p style="font-size:13px;color:rgba(0,0,0,0.75);line-height:1.7;">73,7% dos respondentes adotam algum tipo de protocolo de segurança. Os mais comuns: comunicação criptografada, publicação sem assinatura e omissão de detalhes territoriais.</p>
-      <p style="font-size:13px;color:rgba(0,0,0,0.65);margin-top:12px;line-height:1.7;">26,3% não têm nenhum protocolo estabelecido.</p>
+    <div class="strat-card" style="background:var(--amarelo);">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--preto);margin-bottom:16px;">Nota</div>
+      <p style="font-size:14px;color:var(--preto);line-height:1.7;font-weight:500;">73,7% dos respondentes adotam algum tipo de protocolo de segurança. Os mais comuns: comunicação criptografada, publicação sem assinatura e omissão de detalhes territoriais.</p>
+      <p style="font-size:14px;color:var(--preto);margin-top:12px;line-height:1.7;font-weight:500;">26,3% não têm nenhum protocolo estabelecido.</p>
     </div>
   </div>
 </section>
@@ -654,21 +654,44 @@
   </div>
 </section>
 
+<!-- AUTORAS -->
+<section style="background:#111;border-top:2px solid rgba(255,255,255,0.1);padding:100px 60px;" id="autoras">
+  <div class="section-label">Os autores</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;background:rgba(255,255,255,0.06);margin-top:60px;" class="reveal">
+
+    <div style="background:#111;padding:52px 44px;display:flex;flex-direction:column;gap:28px;">
+      <img src="gabi.jpeg" alt="Gabi Coelho" style="width:120px;height:120px;object-fit:cover;object-position:center top;">
+      <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--amarelo);letter-spacing:-0.02em;">Gabi Coelho</div>
+      <p style="font-size:15px;color:var(--branco);line-height:1.85;">Jornalista investigativa independente com foco na defesa dos direitos humanos, justiça social e socioambiental. Recém-especializada em gestão de organizações da sociedade civil, analista de projetos na CTRL+Z, antropóloga em constante formação pela vida e ex-diretora da Associação Brasileira de Jornalismo Investigativo (Abraji).</p>
+      <p style="font-size:15px;color:var(--branco);line-height:1.85;">Tem passagens por veículos como Intercept Brasil, InfoAmazonia, Agência Pública, Gênero e Número, Globo, Estadão, Portal Drauzio Varella, AzMina, Colabora, Ponte Jornalismo, Favela em Pauta e Voz das Comunidades. O terceiro setor da América Latina também faz parte de sua trajetória com projetos em organizações como Artigo 19, Instituto Alana, Énois, Internews, Instituto Toriba, PerifaConnection, IDAFRO, Fundo Baobá, entre outros.</p>
+    </div>
+
+    <!-- IGOR -->
+    <div style="background:#0d0d0d;padding:52px 44px;display:flex;flex-direction:column;gap:28px;">
+      <img src="igor.PNG" alt="Igor Soares" style="width:120px;height:120px;object-fit:cover;object-position:center top;">
+      <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--amarelo);letter-spacing:-0.02em;">Igor Soares</div>
+      <p style="font-size:15px;color:var(--branco);line-height:1.85;">Jornalista formado pela UFRJ. Atua como repórter freelancer do #Colabora, do Rio On Watch e é colaborador da Folha de S. Paulo no Rio. Tem experiência em cobertura de cidades, direitos humanos, segurança pública, economia e política, com passagem pelas redações do Estadão, da Agência Estado e do Portal iG.</p>
+    </div>
+
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div>
     <div class="footer-logo">Jornalismo local sob pressão do poder paralelo</div>
-    <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;line-height:1.8;">
+    <div style="font-size:14px;color:var(--branco);margin-top:8px;line-height:1.8;">
       Gabi Coelho e Igor Soares<br>
       Com apoio da Repórteres Sem Fronteiras (RSF)<br>
-      Publicado no Projeto Colabora · 2026
+      Publicado no Colabora · 2026
     </div>
   </div>
   <div class="footer-info">
     Pesquisa realizada entre<br>
     fevereiro e maio de 2026<br>
     38 respondentes · 5 regiões<br>
-    Todos os dados anonimizados
+    Dados protegidos pela LGPD
   </div>
 </footer>
 
