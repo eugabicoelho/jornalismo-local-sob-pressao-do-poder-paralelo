@@ -45,7 +45,7 @@
   .nav-links { display: flex; gap: 28px; list-style: none; }
   .nav-links a { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--branco); text-decoration: none; letter-spacing: 0.1em; opacity: 0.7; transition: opacity 0.2s, color 0.2s; }
   .nav-links a:hover { opacity: 1; color: var(--amarelo); }
-  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 200; position: relative; }
   .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--amarelo); }
   .nav-mobile-menu { display: none; position: fixed; top: 48px; left: 0; right: 0; background: var(--preto); border-bottom: 2px solid var(--amarelo); padding: 20px 24px; z-index: 99; flex-direction: column; gap: 16px; }
   .nav-mobile-menu.open { display: flex; }
@@ -239,6 +239,7 @@
     .citacao-grid { grid-template-columns: 1fr; gap: 20px; }
     .metodo-grid { grid-template-columns: 1fr; gap: 32px; }
     .sobre-grid { grid-template-columns: 1fr; gap: 32px; }
+    .scroll-autores-hint { display: block !important; }
   }
 </style>
 </head>
@@ -669,7 +670,7 @@
 
     <!-- IGOR -->
     <div style="background:#0d0d0d;padding:52px 44px;display:flex;flex-direction:column;gap:28px;">
-      <img src="igor.PNG" alt="Igor Soares" style="width:120px;height:120px;object-fit:cover;object-position:center 20%;">
+      <img src="igor.PNG" alt="Igor Soares" style="width:120px;height:120px;object-fit:cover;object-position:center 35%;">
       <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--amarelo);letter-spacing:-0.02em;">Igor Soares</div>
       <p style="font-size:15px;color:var(--branco);line-height:1.85;">Jornalista formado pela UFRJ. Atua como repórter freelancer do #Colabora, do Rio On Watch e é colaborador da Folha de S. Paulo no Rio. Tem experiência em cobertura de cidades, direitos humanos, segurança pública, economia e política, com passagem pelas redações do Estadão, da Agência Estado e do Portal iG.</p>
     </div>
